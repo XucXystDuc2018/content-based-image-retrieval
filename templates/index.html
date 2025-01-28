@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBIR System</title>
+<style>
+        body {font-family: Arial, Helvetica, sans-serif;}
+        form {
+            background-color: #ececec;
+            width: 70%;
+
+        }
+
+        input{
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+       
+        .button-4 {
+        appearance: none;
+        background-color: #FAFBFC;
+        border: 1px solid rgba(27, 31, 35, 0.15);
+        border-radius: 6px;
+        box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+        box-sizing: border-box;
+        color: #24292E;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        list-style: none;
+        padding: 6px 16px;
+        position: relative;
+        transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: middle;
+        white-space: nowrap;
+        word-wrap: break-word;
+        }
+
+        .button-4:hover {
+        background-color: #F3F4F6;
+        text-decoration: none;
+        transition-duration: 0.1s;
+        }
+
+
+</style>
+</head>
+<body>
+    <h1>Content-Based Image Retrieval</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <label for="query_image">Upload Query Image:</label>
+        <input type="file" name="query_image" id="query_image" required>
+        <button class="button-4" type="submit">Search</button>
+    </form>
+
+    {% if query_image %}
+        <h2>Query Image:</h2>
+        <img src="{{ query_image }}" alt="Query Image" style="max-width: 300px;">
+    {% endif %}
+
+    {% if results %}
+        <h2>Top 10 Similar Images:</h2>
+        <div style="display: flex; flex-wrap: wrap;">
+            {% for result in results %}
+                <div style="margin: 10px; text-align: center;">
+                    <img src="{{ url_for('static', filename=result.image_url) }}" alt="Result Image" style="max-width: 200px;">
+                    <p>Distance: {{ result.distance }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
